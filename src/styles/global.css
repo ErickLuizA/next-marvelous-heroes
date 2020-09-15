@@ -1,0 +1,13 @@
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.selected {
+  opacity: 1 !important;
+}
