@@ -1,12 +1,14 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
+import React, { useContext } from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import api from '../../services/api'
 import Header from '../../components/Header'
-import { CircularProgress, Container, makeStyles } from '@material-ui/core'
+import { Container, makeStyles } from '@material-ui/core'
 import { Character as Char } from '../../components/ImageSlider'
 import { useRouter } from 'next/router'
 import CharCard from '../../components/CharCard'
+import { AuthContext } from '../../contexts/AuthContext'
+import Loading from '../../components/Loading'
 
 const useStyles = makeStyles(theme => ({
   flex: {
@@ -26,8 +28,10 @@ const Character: React.FC = ({
 
   const styles = useStyles()
 
-  if (router.isFallback) {
-    return <CircularProgress />
+  const { loading } = useContext(AuthContext)
+
+  if (router.isFallback || loading) {
+    return <Loading />
   }
 
   return (

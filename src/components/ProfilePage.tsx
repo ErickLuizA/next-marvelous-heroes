@@ -1,6 +1,14 @@
 // eslint-disable-next-line no-use-before-define
 import React from 'react'
-import { Avatar, Box, makeStyles, Typography } from '@material-ui/core'
+import {
+  Avatar,
+  Box,
+  CardMedia,
+  List,
+  makeStyles,
+  Typography
+} from '@material-ui/core'
+import { Character } from './ImageSlider'
 
 interface User {
   displayName: string
@@ -9,6 +17,7 @@ interface User {
 
 interface IProfile {
   user: User
+  favorites: Character[]
 }
 
 const useStyles = makeStyles(theme => ({
@@ -26,10 +35,18 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       width: '65%'
     }
+  },
+
+  align: {
+    textAlign: 'center',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      textAlign: 'start'
+    }
   }
 }))
 
-const ProfilePage: React.FC<IProfile> = ({ user }) => {
+const ProfilePage: React.FC<IProfile> = ({ user, favorites }) => {
   const styles = useStyles()
 
   return (
@@ -51,7 +68,30 @@ const ProfilePage: React.FC<IProfile> = ({ user }) => {
         </Typography>
       </Box>
       <Box className={styles.cardBox}>
-        <h1>Hello World</h1>
+        <Typography variant="h5" className={styles.align}>
+          Favorite Characters
+        </Typography>
+        <List
+          style={{
+            display: 'flex',
+            gap: '1em',
+            flexWrap: 'wrap'
+          }}
+        >
+          {favorites.length > 0 ? (
+            favorites.map(fav => (
+              <CardMedia
+                key={fav.id}
+                component="img"
+                alt={fav.name}
+                style={{ width: '30%', height: '30%' }}
+                image={fav.thumbnail.path + '.' + fav.thumbnail.extension}
+              />
+            ))
+          ) : (
+            <p className={styles.align}>No favorites to display</p>
+          )}
+        </List>
       </Box>
     </>
   )

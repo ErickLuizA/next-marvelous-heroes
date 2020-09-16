@@ -1,15 +1,23 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
+import React, { useContext } from 'react'
 import { Container } from '@material-ui/core'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Header from '../../components/Header'
 import { Character } from '../../components/ImageSlider'
 import api from '../../services/api'
 import CharCard from '../../components/CharCard'
+import { AuthContext } from '../../contexts/AuthContext'
+import Loading from '../../components/Loading'
 
 const Characters: React.FC = ({
   data
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { loading } = useContext(AuthContext)
+
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <>
       <Header />

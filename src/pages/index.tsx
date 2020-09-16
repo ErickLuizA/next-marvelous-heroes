@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../components/Header'
 import {
   Container,
@@ -12,6 +12,8 @@ import api from '../services/api'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import ImageSlider, { Character } from '../components/ImageSlider'
 import Link from 'next/link'
+import Loading from '../components/Loading'
+import { AuthContext } from '../contexts/AuthContext'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -68,6 +70,13 @@ const Home: React.FC = ({
   data
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const styles = useStyles()
+
+  const { loading } = useContext(AuthContext)
+
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <>
       <Header />

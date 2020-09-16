@@ -8,11 +8,12 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import api from '../services/api'
 import { Character } from '../components/ImageSlider'
 import { useRouter } from 'next/router'
+import Loading from '../components/Loading'
 
 const Dashboard: React.FC = ({
   characters
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { user } = useContext(AuthContext)
+  const { user, loading } = useContext(AuthContext)
 
   const [selectedChar, setSelectedChar] = useState<string | null>(null)
   const [error, setError] = useState(false)
@@ -47,6 +48,10 @@ const Dashboard: React.FC = ({
     }
   }
 
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <>
       <Header />
@@ -69,7 +74,7 @@ const Dashboard: React.FC = ({
             </form>
           )}
         />
-        <h1>Welcome {user?.displayName}</h1>
+        <h1>Hello, {user?.displayName}</h1>
       </Container>
     </>
   )

@@ -8,36 +8,40 @@ interface AuthProps {
   signed: boolean
   user: User
   signOut(): void
+  loading: boolean
 }
 
 const AuthContext = createContext({} as AuthProps)
 
 const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const router = useRouter()
 
   useEffect(() => {
-    if (!user) {
-      switch (router.pathname) {
-        case '/login':
-          break
-        case '/register':
-          break
-        default:
-          router.push('/')
-      }
-    } else {
-      switch (router.pathname) {
-        case '/':
-          router.push('/dashboard')
-          break
-        case '/login':
-          router.push('/dashboard')
-          break
-        case '/register':
-          router.push('/dashboard')
-          break
+    if (!loading) {
+      if (!user) {
+        switch (router.pathname) {
+          case '/login':
+            break
+          case '/register':
+            break
+          default:
+            router.push('/')
+        }
+      } else {
+        switch (router.pathname) {
+          case '/':
+            router.push('/dashboard')
+            break
+          case '/login':
+            router.push('/dashboard')
+            break
+          case '/register':
+            router.push('/dashboard')
+            break
+        }
       }
     }
   }, [router.pathname, user])
@@ -46,8 +50,10 @@ const AuthProvider: React.FC = ({ children }) => {
     auth().onAuthStateChanged((user: User) => {
       if (user) {
         setUser(user)
+        setLoading(false)
       } else {
         setUser(null)
+        setLoading(false)
       }
     })
   }, [signOut, router.pathname])
@@ -57,7 +63,9 @@ const AuthProvider: React.FC = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ signed: Boolean(user), user, signOut }}>
+    <AuthContext.Provider
+      value={{ signed: Boolean(user), user, signOut, loading }}
+    >
       {children}
     </AuthContext.Provider>
   )

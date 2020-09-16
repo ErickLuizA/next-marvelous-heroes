@@ -60,8 +60,6 @@ const CharCard: React.FC<Character> = ({
 
           const exist = charactersArray.find(cha => cha === id)
 
-          console.log(charactersArray.find(cha => cha === id))
-
           if (!exist) {
             setFavorite(false)
           } else {
@@ -70,44 +68,45 @@ const CharCard: React.FC<Character> = ({
         })
       })
     })()
-  }, [favorite])
+  }, [])
 
   async function handleFavorite() {
     setFavorite(state => !state)
+
     const docRef = db().collection('Favorites').where('userId', '==', user.uid)
 
-    console.log('docRef', docRef)
     if (!favorite) {
       await docRef.get().then(snapshot => {
-        console.log('after snapshot', snapshot)
-        snapshot.forEach(async snap => {
-          console.log('after snap')
-          if (snap.data().Characters > 0) {
-            const array = snap.data().Characters
-            array.push(id)
-            snap.ref.update({
-              Characters: array
-            })
-            console.log('after update')
-          } else {
+        if (!snapshot.empty) {
+          snapshot.forEach(async snap => {
+            if (snap.exists) {
+              const array = snap.data().Characters
+              array.push(id)
+              snap.ref.update({
+                Characters: array
+              })
+            }
+          })
+        } else {
+          ;(async () => {
             await db()
               .collection('Favorites')
               .add({
                 Characters: [id],
                 userId: user?.uid
               })
-            console.log('after add first time')
-          }
-        })
+          })()
+        }
       })
     } else {
       await docRef.get().then(snapshot => {
         snapshot.forEach(async snap => {
           const array = snap.data().Characters
-          const exist = array.filter(a => a === id)
+          const exist = array.find(a => a === id)
           if (exist) {
-            await snap.ref.delete()
-            console.log('after delete')
+            await snap.ref.update({
+              Characters: array.filter(a => a !== id)
+            })
           }
         })
       })
