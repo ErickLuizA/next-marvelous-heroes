@@ -18,14 +18,16 @@ const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   const router = useRouter()
+  
+  console.log(router.pathname)
 
   useEffect(() => {
     if (!loading) {
       if (!user) {
         switch (router.pathname) {
-          case 'https://fanarvel.vercel.app/login':
+          case '/login':
             break
-          case 'https://fanarvel.vercel.app/register':
+          case '/register':
             break
           default:
             router.push('/')
@@ -33,13 +35,13 @@ const AuthProvider: React.FC = ({ children }) => {
       } else {
         switch (router.pathname) {
           case '/':
-            router.push('https://fanarvel.vercel.app/dashboard')
+            router.push('/dashboard')
             break
           case '/login':
-            router.push('https://fanarvel.vercel.app/dashboard')
+            router.push('/dashboard')
             break
           case '/register':
-            router.push('https://fanarvel.vercel.app/dashboard')
+            router.push('/dashboard')
             break
         }
       }
