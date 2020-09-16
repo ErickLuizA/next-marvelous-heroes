@@ -23,9 +23,9 @@ const AuthProvider: React.FC = ({ children }) => {
     if (!loading) {
       if (!user) {
         switch (router.pathname) {
-          case '/login':
+          case 'https://fanarvel.vercel.app/login':
             break
-          case '/register':
+          case 'https://fanarvel.vercel.app/register':
             break
           default:
             router.push('/')
@@ -33,13 +33,13 @@ const AuthProvider: React.FC = ({ children }) => {
       } else {
         switch (router.pathname) {
           case '/':
-            router.push('/dashboard')
+            router.push('https://fanarvel.vercel.app/dashboard')
             break
           case '/login':
-            router.push('/dashboard')
+            router.push('https://fanarvel.vercel.app/dashboard')
             break
           case '/register':
-            router.push('/dashboard')
+            router.push('https://fanarvel.vercel.app/dashboard')
             break
         }
       }
