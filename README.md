@@ -58,7 +58,7 @@ Fanarvel is website built using the marvel api
 
 ```shell
 # Go into the repository
-$ cd yfmusic
+$ cd Fanarvel
 
 # Install dependencies
 $ npm install
