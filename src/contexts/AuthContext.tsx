@@ -18,35 +18,6 @@ const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   const router = useRouter()
-  
-  console.log(router.pathname)
-
-  useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        switch (router.pathname) {
-          case '/login':
-            break
-          case '/register':
-            break
-          default:
-            router.push('/')
-        }
-      } else {
-        switch (router.pathname) {
-          case '/':
-            router.push('/dashboard')
-            break
-          case '/login':
-            router.push('/dashboard')
-            break
-          case '/register':
-            router.push('/dashboard')
-            break
-        }
-      }
-    }
-  }, [router.pathname, user])
 
   useEffect(() => {
     auth().onAuthStateChanged((user: User) => {
@@ -59,6 +30,35 @@ const AuthProvider: React.FC = ({ children }) => {
       }
     })
   }, [signOut, router.pathname])
+
+  useEffect(() => {
+    ;(async () => {
+      if (!loading) {
+        if (!user) {
+          switch (router.pathname) {
+            case '/login':
+              break
+            case '/register':
+              break
+            default:
+              await router.push('/')
+          }
+        } else {
+          switch (router.pathname) {
+            case '/':
+              await router.push('/dashboard')
+              break
+            case '/login':
+              await router.push('/dashboard')
+              break
+            case '/register':
+              await router.push('/dashboard')
+              break
+          }
+        }
+      }
+    })()
+  })
 
   async function signOut() {
     await auth().signOut()
