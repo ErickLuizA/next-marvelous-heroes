@@ -58,7 +58,7 @@ const AuthProvider: React.FC = ({ children }) => {
         }
       }
     })()
-  })
+  }, [loading, user])
 
   async function signOut() {
     await auth().signOut()
