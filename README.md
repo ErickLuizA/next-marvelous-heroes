@@ -52,6 +52,10 @@ Fanarvel is website built using the marvel api
 
 ```shell
  $ git clone https://github.com/ErickLuizA/Fanarvel.git
+
+ or
+
+ $ gh repo clone ErickLuizA/Fanarvel
 ```
 
 ## 2. Installation
@@ -71,7 +75,7 @@ $ npm run dev
 ```
 
 
-> Project demo : https://fanarvel.vercel.app
+> [Live Demo](https://fanarvel.vercel.app)
 
 ## :memo: License
 
@@ -79,4 +83,4 @@ This project is under the MIT license. See the file [LICENSE](LICENSE) for more 
 
 ---
 
-Build with 💙 By [Erick](https://erickluiz.netlify.app/)
+Build with 💙 By [Erick](https://www.linkedin.com/in/erick-luiz-47151a1a4/)
