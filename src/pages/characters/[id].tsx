@@ -1,13 +1,15 @@
-// eslint-disable-next-line no-use-before-define
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
-import api from '../../services/api'
-import Header from '../../components/Header'
-import { Container, makeStyles } from '@material-ui/core'
-import { Character as Char } from '../../components/ImageSlider'
 import { useRouter } from 'next/router'
-import CharCard from '../../components/CharCard'
+import { Container, makeStyles } from '@material-ui/core'
+
+import api from '../../services/api'
+
 import { AuthContext } from '../../contexts/AuthContext'
+
+import { Character as Char } from '../../components/ImageSlider'
+import Header from '../../components/Header'
+import CharCard from '../../components/CharCard'
 import Loading from '../../components/Loading'
 
 const useStyles = makeStyles(theme => ({

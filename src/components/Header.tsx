@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-use-before-define
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
+import Head from 'next/head'
 import Link from 'next/link'
 import {
   AppBar,
@@ -20,9 +20,9 @@ import {
   Menu as MenuIcon,
   AccountCircle
 } from '@material-ui/icons'
+
 import { ThemeContext } from '../contexts/ThemeContext'
 import { AuthContext } from '../contexts/AuthContext'
-import Head from 'next/head'
 
 const useStyles = makeStyles(theme => ({
   title: {

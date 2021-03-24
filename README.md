@@ -1,7 +1,3 @@
-<p align="center"> 
-  <img alt="fanarvel" src="./.github/fanarvel.png"  width="400"/>
-</p>
-
 <h1 align="center"> Fanarvel </h1>
 
 <p align="center">
@@ -28,6 +24,7 @@
   <a href="#building_construction-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#rocket-getting-started">Getting Started</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-license">License</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#framed_picture-screenshots">Screenshots</a>
 </p>
 
 
@@ -74,6 +71,16 @@ $ npm install
 $ npm run dev
 ```
 
+## :framed_picture: Screenshots
+
+<div>
+  <img alt="Fanarvel image" src="./.github/index.png"  width="500"/>
+  <img alt="Fanarvel image" src="./.github/register.png"  width="500"/>
+  <img alt="Fanarvel image" src="./.github/login.png"  width="500"/>
+  <img alt="Fanarvel image" src="./.github/dashboard.png"  width="500"/>
+  <img alt="Fanarvel image" src="./.github/character.png"  width="500"/>
+  <img alt="Fanarvel image" src="./.github/profile.png"  width="500"/>
+</div>
 
 > [Live Demo](https://fanarvel.vercel.app)
 

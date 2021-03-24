@@ -1,11 +1,13 @@
-// eslint-disable-next-line no-use-before-define
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Container, makeStyles } from '@material-ui/core'
-import Header from '../components/Header'
-import { AuthContext } from '../contexts/AuthContext'
-import ProfilePage from '../components/ProfilePage'
+
 import { db } from '../config/firebase'
+import { AuthContext } from '../contexts/AuthContext'
+
 import useFetch from '../hooks/useFetch'
+
+import Header from '../components/Header'
+import ProfilePage from '../components/ProfilePage'
 
 const useStyles = makeStyles(theme => ({
   flex: {
@@ -27,26 +29,25 @@ const Profile: React.FC = () => {
   useEffect(() => {
     if (!loading) {
       ;(async () => {
-        const docRef = db()
-          .collection('Favorites')
-          .where('userId', '==', user.uid)
-
+        const docRef = db().collection('Favorites').doc(user?.uid)
         const snapshot = await docRef.get()
 
-        if (!snapshot.empty) {
-          snapshot.forEach(async snap => {
-            const response: any = await useFetch(snap.data().Characters)
+        if (snapshot.exists) {
+          try {
+            const response: any = await useFetch(snapshot.data().characters)
 
             const array = []
 
             response.forEach(res => array.push(res.data.results[0]))
 
             setFavorites(array)
-          })
+          } catch (e) {
+            alert('Error in trying to load favorites')
+          }
         }
       })()
     }
-  }, [])
+  }, [loading])
 
   return (
     <>

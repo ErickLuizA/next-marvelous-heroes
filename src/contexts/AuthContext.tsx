@@ -1,7 +1,7 @@
-// eslint-disable-next-line no-use-before-define
-import React, { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { User } from 'firebase'
+import { User } from 'firebase/auth'
+
 import { auth } from '../config/firebase'
 
 interface AuthProps {

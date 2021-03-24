@@ -1,8 +1,8 @@
-// eslint-disable-next-line no-use-before-define
-import React, { useState, FormEvent } from 'react'
+import { useState, FormEvent } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { TextField, Button, makeStyles, Container } from '@material-ui/core'
+
 import { auth } from '../config/firebase'
 
 const useStyles = makeStyles(theme => ({

@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-use-before-define
-import React, { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import {
   createMuiTheme,
   ThemeProvider as ThemeProv,

@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-use-before-define
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   Button,
   Card,
@@ -10,6 +9,7 @@ import {
   makeStyles,
   Typography
 } from '@material-ui/core'
+
 import { Character } from './ImageSlider'
 import { db } from '../config/firebase'
 import { AuthContext } from '../contexts/AuthContext'
@@ -48,68 +48,51 @@ const CharCard: React.FC<Character> = ({
 
   const styles = useStyles()
 
+  const docRef = db().collection('Favorites').doc(user?.uid)
+
   useEffect(() => {
     ;(async () => {
-      const docRef = db()
-        .collection('Favorites')
-        .where('userId', '==', user?.uid)
+      const snapshot = await docRef.get()
 
-      await docRef.get().then(snapshot => {
-        snapshot.forEach(snap => {
-          const charactersArray = snap.data().Characters
+      if (snapshot.exists) {
+        const charactersArray: number[] = snapshot.data().characters
 
-          const exist = charactersArray.find(cha => cha === id)
+        const exist = charactersArray.find(chaId => chaId === id)
 
-          if (!exist) {
-            setFavorite(false)
-          } else {
-            setFavorite(true)
-          }
+        if (!exist) {
+          setFavorite(false)
+        } else {
+          setFavorite(true)
+        }
+      } else {
+        db().collection('Favorites').doc(user?.uid).set({
+          characters: []
         })
-      })
+      }
     })()
   }, [])
 
   async function handleFavorite() {
     setFavorite(state => !state)
 
-    const docRef = db().collection('Favorites').where('userId', '==', user.uid)
+    const snapshot = await docRef.get()
+
+    const charactersArray: number[] = snapshot.data().characters
 
     if (!favorite) {
-      await docRef.get().then(snapshot => {
-        if (!snapshot.empty) {
-          snapshot.forEach(async snap => {
-            if (snap.exists) {
-              const array = snap.data().Characters
-              array.push(id)
-              snap.ref.update({
-                Characters: array
-              })
-            }
-          })
-        } else {
-          ;(async () => {
-            await db()
-              .collection('Favorites')
-              .add({
-                Characters: [id],
-                userId: user?.uid
-              })
-          })()
-        }
+      charactersArray.push(id)
+
+      snapshot.ref.update({
+        characters: charactersArray
       })
     } else {
-      await docRef.get().then(snapshot => {
-        snapshot.forEach(async snap => {
-          const array = snap.data().Characters
-          const exist = array.find(a => a === id)
-          if (exist) {
-            await snap.ref.update({
-              Characters: array.filter(a => a !== id)
-            })
-          }
+      const exist = charactersArray.find(a => a === id)
+
+      if (exist) {
+        snapshot.ref.update({
+          characters: charactersArray.filter(a => a !== id)
         })
-      })
+      }
     }
   }
 

@@ -1,13 +1,15 @@
-// eslint-disable-next-line no-use-before-define
-import React, { FormEvent, useContext, useState } from 'react'
-import { Container, TextField } from '@material-ui/core'
-import Header from '../components/Header'
-import { AuthContext } from '../contexts/AuthContext'
-import { Autocomplete } from '@material-ui/lab'
+import { FormEvent, useContext, useState } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import api from '../services/api'
-import { Character } from '../components/ImageSlider'
 import { useRouter } from 'next/router'
+import { Container, TextField } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab'
+
+import api from '../services/api'
+
+import { AuthContext } from '../contexts/AuthContext'
+
+import { Character } from '../components/ImageSlider'
+import Header from '../components/Header'
 import Loading from '../components/Loading'
 
 const Dashboard: React.FC = ({

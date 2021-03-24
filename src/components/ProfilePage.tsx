@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-use-before-define
-import React from 'react'
 import {
   Avatar,
   Box,
@@ -8,6 +6,8 @@ import {
   makeStyles,
   Typography
 } from '@material-ui/core'
+import { useRouter } from 'next/router'
+
 import { Character } from './ImageSlider'
 
 interface User {
@@ -49,6 +49,8 @@ const useStyles = makeStyles(theme => ({
 const ProfilePage: React.FC<IProfile> = ({ user, favorites }) => {
   const styles = useStyles()
 
+  const router = useRouter()
+
   return (
     <>
       <Box className={styles.avatarBox}>
@@ -81,6 +83,9 @@ const ProfilePage: React.FC<IProfile> = ({ user, favorites }) => {
           {favorites.length > 0 ? (
             favorites.map(fav => (
               <CardMedia
+                onClick={async () => {
+                  await router.push(`/characters/${fav.id}`)
+                }}
                 key={fav.id}
                 component="img"
                 alt={fav.name}

@@ -1,11 +1,11 @@
-// eslint-disable-next-line no-use-before-define
-import React from 'react'
 import { AppProps } from 'next/app'
-import CssBaseLine from '@material-ui/core/CssBaseline'
 import Head from 'next/head'
-import ThemeProvider from '../contexts/ThemeContext'
-import '../styles/global.css'
+import CssBaseLine from '@material-ui/core/CssBaseline'
+
 import { AuthProvider } from '../contexts/AuthContext'
+import ThemeProvider from '../contexts/ThemeContext'
+
+import '../styles/global.css'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
