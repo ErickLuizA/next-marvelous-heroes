@@ -82,8 +82,6 @@ $ npm run dev
   <img alt="Fanarvel image" src="./.github/profile.png"  width="500"/>
 </div>
 
-> [Live Demo](https://fanarvel.vercel.app)
-
 ## :memo: License
 
 This project is under the MIT license. See the file [LICENSE](LICENSE) for more details.
