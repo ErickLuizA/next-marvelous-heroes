@@ -1,136 +1,75 @@
-import { useContext } from 'react'
-import Header from '../components/Header'
-import {
-  Container,
-  Box,
-  makeStyles,
-  Typography,
-  Button
-} from '@material-ui/core'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import Link from 'next/link'
+import * as api from '../services/network'
+import { Container } from '../components/Container'
+import { List } from '../components/List'
+import { AppBar } from '../components/AppBar'
+import { Item } from '../types/item'
+import { Character } from '../types/character'
+import { Comic } from '../types/comic'
+import { Creator } from '../types/creator'
+import { Event } from '../types/event'
+import { Serie } from '../types/serie'
+import { Story } from '../types/story'
 
-import api from '../services/api'
-
-import { AuthContext } from '../contexts/AuthContext'
-
-import ImageSlider, { Character } from '../components/ImageSlider'
-import Loading from '../components/Loading'
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: '85%',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-      alignItems: 'center',
-      height: '100%'
-    }
-  },
-
-  leftBox: {
-    width: '50%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
-  },
-
-  rightBox: {
-    position: 'relative',
-    width: '50%',
-    height: '100%',
-    marginTop: '20px',
-    marginBottom: '10px',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
-  },
-
-  buttonBox: {
-    margin: '10px'
-  },
-
-  alignText: {
-    textAlign: 'center'
-  },
-
-  button: {
-    margin: '10px',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
+interface IHomeProps {
+  data: {
+    characters: Item[]
+    comics: Item[]
+    creators: Item[]
+    events: Item[]
+    series: Item[]
+    stories: Item[]
   }
-}))
-
-const Home: React.FC = ({
-  data
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const styles = useStyles()
-
-  const { loading } = useContext(AuthContext)
-
-  if (loading) {
-    return <Loading />
-  }
-
-  return (
-    <>
-      <Header />
-      <Container className={styles.container} maxWidth="lg">
-        <Box className={styles.leftBox}>
-          <Typography className={styles.alignText} variant="h2">
-            Welcome to Fanarvel
-          </Typography>
-          <Typography className={styles.alignText} variant="h5">
-            Every Marvel fan favorite place
-          </Typography>
-          <Typography className={styles.alignText} variant="h6">
-            Join us!
-          </Typography>
-          <Box className={styles.buttonBox}>
-            <Link href="login">
-              <Button className={styles.button} variant="contained">
-                <a>Login</a>
-              </Button>
-            </Link>
-            <Link href="register">
-              <Button className={styles.button} variant="outlined">
-                <a>Register</a>
-              </Button>
-            </Link>
-          </Box>
-        </Box>
-        <Box className={styles.rightBox}>
-          {data?.map((item: Character) => {
-            return (
-              <ImageSlider
-                key={item.id}
-                comics={item.comics}
-                description={item.description}
-                name={item.name}
-                thumbnail={item.thumbnail}
-              />
-            )
-          })}
-        </Box>
-      </Container>
-    </>
-  )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await api.get('/characters?', {
-    params: {
-      orderBy: '-modified'
-    }
-  })
-  const data = res.data.data.results
+export const getStaticProps: GetStaticProps<IHomeProps> = async () => {
+  const responses = await Promise.allSettled([
+    api.getCharacters(),
+    api.getComics(),
+    api.getCreators(),
+    api.getEvents(),
+    api.getSeries(),
+    api.getStories()
+  ])
+
+  const [characters, comics, creators, events, series, stories] = responses.map(
+    (response) => (response.status === 'fulfilled' ? response.value : [])
+  )
+
+  const data = {
+    characters: (characters as Character[]).map((character) => ({
+      id: character.id,
+      title: character.name,
+      poster: character.thumbnail.path + '.' + character.thumbnail.extension
+    })),
+    comics: (comics as Comic[]).map((comic) => ({
+      id: comic.id,
+      title: comic.title,
+      poster: comic.thumbnail.path + '.' + comic.thumbnail.extension
+    })),
+    creators: (creators as Creator[]).map((creator) => ({
+      id: creator.id,
+      title: creator.fullName,
+      poster: creator.thumbnail.path + '.' + creator.thumbnail.extension
+    })),
+    events: (events as Event[]).map((event) => ({
+      id: event.id,
+      title: event.title,
+      poster: event.thumbnail.path + '.' + event.thumbnail.extension
+    })),
+    series: (series as Serie[]).map((serie) => ({
+      id: serie.id,
+      title: serie.title,
+      poster: serie.thumbnail.path + '.' + serie.thumbnail.extension
+    })),
+    stories: (stories as Story[]).map((story) => ({
+      id: story.id,
+      title: story.title,
+      poster: story.thumbnail
+        ? story.thumbnail.path + '.' + story.thumbnail.extension
+        : null
+    }))
+  }
 
   return {
     props: {
@@ -139,4 +78,20 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default Home
+export default function Home({
+  data
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  return (
+    <Container>
+      <AppBar />
+      <div className="container">
+        <List name="Characters" link="/characters" items={data.characters} />
+        <List name="Comics" link="/comics" items={data.comics} />
+        <List name="Series" link="/series" items={data.series} />
+        <List name="Events" link="/events" items={data.events} />
+        <List name="Stories" link="/stories" items={data.stories} />
+        <List name="Creators" link="/creators" items={data.creators} />
+      </div>
+    </Container>
+  )
+}

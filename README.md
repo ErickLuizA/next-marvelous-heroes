@@ -34,13 +34,9 @@ Fanarvel is website built using the marvel api
 
 ## :building_construction: Technologies
 
-- [Firebase](https://firebase.google.com)
-
 - [Typescript](https://www.typescriptlang.org/)
 
 - [Nextjs](https://nextjs.org)
-
-- [Material-ui](https://material-ui.com/)
 
 
 ## :rocket: Getting Started

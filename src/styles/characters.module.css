@@ -1,0 +1,39 @@
+.container {
+  padding: 1rem;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  list-style: none;
+  gap: 1rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 448px) {
+  .list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 672px) {
+  .list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 896px) {
+  .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (min-width: 1120px) {
+  .list {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

@@ -1,0 +1,60 @@
+.container {
+  width: 100%;
+  padding: 1.5rem 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header {
+  color: var(--text);
+  text-align: end;
+}
+
+.openFullIcon {
+  color: var(--text);
+  cursor: pointer;
+}
+
+.listContainer {
+  position: relative;
+}
+
+.list {
+  display: flex;
+  overflow-x: hidden;
+  list-style: none;
+  padding: 0;
+}
+
+.iconButton {
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--text);
+  cursor: pointer;
+  border: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 0 1rem;
+}
+
+.iconButton:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.icon {
+  visibility: hidden;
+  font-size: 2rem;
+}
+
+.iconButton:hover > .icon {
+  visibility: visible;
+}
+
+.leftIcon {
+  right: 0;
+}

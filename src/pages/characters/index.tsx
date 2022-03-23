@@ -1,51 +1,43 @@
-import { useContext } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { Container } from '@material-ui/core'
+import { Container } from '../../components/Container'
+import { AppBar } from '../../components/AppBar'
+import * as api from '../../services/network'
+import styles from '../../styles/characters.module.css'
+import { Character } from '../../types/character'
+import { ItemCard } from '../../components/ItemCard'
 
-import api from '../../services/api'
-
-import { AuthContext } from '../../contexts/AuthContext'
-
-import { Character } from '../../components/ImageSlider'
-import Header from '../../components/Header'
-import CharCard from '../../components/CharCard'
-import Loading from '../../components/Loading'
-
-const Characters: React.FC = ({
+export default function Characters({
   data
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { loading } = useContext(AuthContext)
-
-  if (loading) {
-    return <Loading />
-  }
-
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <>
-      <Header />
-      <Container maxWidth="lg" style={{ padding: '1em' }}>
-        {data.map((char: Character) => (
-          <CharCard
-            id={char.id}
-            name={char.name}
-            comics={char.comics}
-            thumbnail={char.thumbnail}
-            description={char.description}
-            key={char.id}
-          />
-        ))}
-      </Container>
-    </>
+    <Container>
+      <AppBar />
+      <div className={styles.container}>
+        <h1 className={styles.header}>Characters</h1>
+        <ul className={styles.list}>
+          {data.map((character) => (
+            <ItemCard
+              item={{
+                id: character.id,
+                poster:
+                  character.thumbnail.path +
+                  '.' +
+                  character.thumbnail.extension,
+                title: character.name
+              }}
+              link={'/characters/' + character.id}
+            />
+          ))}
+        </ul>
+      </div>
+    </Container>
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await api.get('/characters?', {
-    params: {
-      orderBy: '-modified'
-    }
-  })
-  const data = res.data.data.results
+export const getStaticProps: GetStaticProps<{
+  data: Character[]
+}> = async () => {
+  const data = await api.getCharacters({ limit: 100 })
 
   return {
     props: {
@@ -53,5 +45,3 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   }
 }
-
-export default Characters

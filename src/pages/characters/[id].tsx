@@ -1,57 +1,21 @@
-import { useContext } from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
-import { useRouter } from 'next/router'
-import { Container, makeStyles } from '@material-ui/core'
+import { Container } from '../../components/Container'
+import { AppBar } from '../../components/AppBar'
+import api from '../../services/network/api'
+import { Character as ICharacter } from '../../types/character'
 
-import api from '../../services/api'
-
-import { AuthContext } from '../../contexts/AuthContext'
-
-import { Character as Char } from '../../components/ImageSlider'
-import Header from '../../components/Header'
-import CharCard from '../../components/CharCard'
-import Loading from '../../components/Loading'
-
-const useStyles = makeStyles(theme => ({
-  flex: {
-    display: 'flex',
-    padding: '2em',
-    gap: '3em',
-    [theme.breakpoints.down('lg')]: {
-      flexDirection: 'column'
-    }
-  }
-}))
-
-const Character: React.FC = ({
+export default function Character({
   data
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const router = useRouter()
-
-  const styles = useStyles()
-
-  const { loading } = useContext(AuthContext)
-
-  if (router.isFallback || loading) {
-    return <Loading />
-  }
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  console.log({ data })
 
   return (
-    <>
-      <Header />
-      <Container maxWidth="lg" className={styles.flex}>
-        {data.map((char: Char) => (
-          <CharCard
-            id={char.id}
-            name={char.name}
-            comics={char.comics}
-            thumbnail={char.thumbnail}
-            description={char.description}
-            key={char.id}
-          />
-        ))}
-      </Container>
-    </>
+    <Container>
+      <AppBar />
+      <div className="full-width">
+        <h1>{data.name}</h1>
+      </div>
+    </Container>
   )
 }
 
@@ -65,7 +29,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const data = response.data.data.results
 
-  const paths = data.map((char: Char) => ({
+  const paths = data.map((char: ICharacter) => ({
     params: { id: char.id.toString() }
   }))
 
@@ -75,15 +39,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async context => {
+export const getStaticProps: GetStaticProps<{ data: ICharacter }> = async (
+  context
+) => {
   const response = await api.get(`/characters/${context.params.id}`)
 
-  const data = response.data.data.results
+  const data: ICharacter = response.data.data.results[0]
 
   return {
     props: { data },
     revalidate: 1
   }
 }
-
-export default Character
