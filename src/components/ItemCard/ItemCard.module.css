@@ -2,8 +2,8 @@
   cursor: pointer;
 }
 
-.listItem:hover {
-  scale: 1.1;
+.scale:hover {
+  transform: scale(1.1);
 }
 
 .listItem a {

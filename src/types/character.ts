@@ -6,29 +6,39 @@ interface Thumbnail {
 interface Comics {
   available: number
   collectionURI: string
-  items: string
+  items: Item[]
   returned: number
 }
 
 interface Series {
   available: number
   collectionURI: string
-  items: string
+  items: Item[]
   returned: number
 }
 
 interface Stories {
   available: number
   collectionURI: string
-  items: string
+  items: Item[]
   returned: number
+}
+
+interface Item {
+  resourceURI: string
+  name: string
 }
 
 interface Events {
   available: number
   collectionURI: string
-  items: string
+  items: Item[]
   returned: number
+}
+
+interface URL {
+  type: string
+  url: string
 }
 
 export interface Character {
@@ -42,5 +52,5 @@ export interface Character {
   series: Series
   stories: Stories
   events: Events
-  urls: string[]
+  urls: URL[]
 }

@@ -15,3 +15,9 @@ export async function getCharacters(
 
   return response.data.data.results
 }
+
+export async function getCharacter(id: number): Promise<Character> {
+  const response = await api.get(`/characters/${id}`)
+
+  return response.data.data.results?.[0]
+}

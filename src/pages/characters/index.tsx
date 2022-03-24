@@ -26,6 +26,7 @@ export default function Characters({
                 title: character.name
               }}
               link={'/characters/' + character.id}
+              scale
             />
           ))}
         </ul>

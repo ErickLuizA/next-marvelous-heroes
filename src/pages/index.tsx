@@ -67,7 +67,7 @@ export const getStaticProps: GetStaticProps<IHomeProps> = async () => {
       title: story.title,
       poster: story.thumbnail
         ? story.thumbnail.path + '.' + story.thumbnail.extension
-        : null
+        : 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
     }))
   }
 

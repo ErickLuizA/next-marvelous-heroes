@@ -1,0 +1,31 @@
+.container {
+  color: var(--text);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header h2 {
+  margin-right: 1rem;
+}
+
+.header a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.list {
+  list-style: none;
+}
+
+.link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

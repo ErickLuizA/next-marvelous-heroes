@@ -1,4 +1,4 @@
-export { getCharacters } from './characters'
+export { getCharacters, getCharacter } from './characters'
 export { getComics } from './comics'
 export { getCreators } from './creators'
 export { getEvents } from './events'
