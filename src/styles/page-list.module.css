@@ -4,7 +4,6 @@
 
 .list {
   display: grid;
-  grid-template-columns: 1fr;
   place-items: center;
   list-style: none;
   gap: 1rem;

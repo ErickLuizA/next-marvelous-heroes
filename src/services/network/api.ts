@@ -21,4 +21,9 @@ const api = axios.create({
   }
 })
 
+export interface IDefaultParams {
+  orderBy?: string
+  limit?: number
+}
+
 export default api

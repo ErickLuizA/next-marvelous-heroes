@@ -4,29 +4,26 @@ import { Container } from '../../components/Container'
 import { ItemCard } from '../../components/ItemCard'
 import * as api from '../../services/network'
 import styles from '../../styles/page-list.module.css'
-import { Character } from '../../types/character'
+import { Comic } from '../../types/comic'
 
-export default function Characters({
+export default function Comics({
   data
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Container>
       <AppBar />
       <div className={styles.container}>
-        <h1 className={styles.header}>Characters</h1>
+        <h1 className={styles.header}>Comics</h1>
         <ul className={styles.list}>
-          {data.map((character) => (
+          {data.map((comic) => (
             <ItemCard
-              key={character.id}
+              key={comic.id}
               item={{
-                id: character.id,
-                poster:
-                  character.thumbnail.path +
-                  '.' +
-                  character.thumbnail.extension,
-                title: character.name
+                id: comic.id,
+                poster: comic.thumbnail.path + '.' + comic.thumbnail.extension,
+                title: comic.title
               }}
-              link={'/characters/' + character.id}
+              link={'/comics/' + comic.id}
               scale
             />
           ))}
@@ -37,9 +34,9 @@ export default function Characters({
 }
 
 export const getStaticProps: GetStaticProps<{
-  data: Character[]
+  data: Comic[]
 }> = async () => {
-  const data = await api.getCharacters({ limit: 100 })
+  const data = await api.getComics({ limit: 100 })
 
   return {
     props: {

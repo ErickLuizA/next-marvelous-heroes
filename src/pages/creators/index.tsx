@@ -4,29 +4,27 @@ import { Container } from '../../components/Container'
 import { ItemCard } from '../../components/ItemCard'
 import * as api from '../../services/network'
 import styles from '../../styles/page-list.module.css'
-import { Character } from '../../types/character'
+import { Creator } from '../../types/creator'
 
-export default function Characters({
+export default function Creators({
   data
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Container>
       <AppBar />
       <div className={styles.container}>
-        <h1 className={styles.header}>Characters</h1>
+        <h1 className={styles.header}>creators</h1>
         <ul className={styles.list}>
-          {data.map((character) => (
+          {data.map((creator) => (
             <ItemCard
-              key={character.id}
+              key={creator.id}
               item={{
-                id: character.id,
+                id: creator.id,
                 poster:
-                  character.thumbnail.path +
-                  '.' +
-                  character.thumbnail.extension,
-                title: character.name
+                  creator.thumbnail.path + '.' + creator.thumbnail.extension,
+                title: creator.fullName
               }}
-              link={'/characters/' + character.id}
+              link={'/creators/' + creator.id}
               scale
             />
           ))}
@@ -37,9 +35,9 @@ export default function Characters({
 }
 
 export const getStaticProps: GetStaticProps<{
-  data: Character[]
+  data: Creator[]
 }> = async () => {
-  const data = await api.getCharacters({ limit: 100 })
+  const data = await api.getCreators({ limit: 100 })
 
   return {
     props: {

@@ -1,10 +1,18 @@
 import { Event } from '../../types/event'
-import api from './api'
+import api, { IDefaultParams } from './api'
 
-export async function getEvents(): Promise<Event[]> {
+export async function getEvents(
+  { limit, orderBy }: IDefaultParams = { limit: 20, orderBy: '-modified' }
+): Promise<Event[]> {
   const response = await api.get('/events', {
-    params: { orderBy: '-modified', limit: 20 }
+    params: { orderBy, limit }
   })
 
   return response.data.data.results
+}
+
+export async function getEvent(id: number): Promise<Event> {
+  const response = await api.get(`/events/${id}`)
+
+  return response.data.data.results?.[0]
 }

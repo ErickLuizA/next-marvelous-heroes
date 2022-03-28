@@ -2,12 +2,12 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { Container } from '../../components/Container'
 import { AppBar } from '../../components/AppBar'
 import * as api from '../../services/network'
-import { Character as ICharacter } from '../../types/character'
-import styles from '../../styles/character.module.css'
+import { Serie as ISerie } from '../../types/serie'
+import styles from '../../styles/detail.module.css'
 import { TextList } from '../../components/TextList'
 import { capitalize } from '../../utils/string'
 
-export default function Character({
+export default function Serie({
   data
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -20,7 +20,7 @@ export default function Character({
             className={styles.img}
           />
           <div>
-            <h1 className={styles.name}>{data.name}</h1>
+            <h1 className={styles.name}>{data.title}</h1>
             <p className={styles.description}>
               {data.description || 'No description found'}
             </p>
@@ -29,10 +29,12 @@ export default function Character({
 
         <div className={styles.textList}>
           <TextList
-            title="Comics"
-            expandLink={data.id + '/comics'}
-            items={data.comics.items.map((item) => ({
-              link: `${data.id}/comics/${item.resourceURI.split('/').pop()}`,
+            title="Characters"
+            expandLink={data.id + '/characters'}
+            items={data.characters.items.map((item) => ({
+              link: `${data.id}/characters/${item.resourceURI
+                .split('/')
+                .pop()}`,
               name: item.name
             }))}
           />
@@ -47,19 +49,19 @@ export default function Character({
           />
 
           <TextList
-            title="Series"
-            expandLink={data.id + '/series'}
-            items={data.series.items.map((item) => ({
-              link: `${data.id}/series/${item.resourceURI.split('/').pop()}`,
+            title="Events"
+            expandLink={data.id + '/events'}
+            items={data.events.items.map((item) => ({
+              link: `${data.id}/events/${item.resourceURI.split('/').pop()}`,
               name: item.name
             }))}
           />
 
           <TextList
-            title="Events"
-            expandLink={data.id + '/events'}
-            items={data.events.items.map((item) => ({
-              link: `${data.id}/events/${item.resourceURI.split('/').pop()}`,
+            title="Creators"
+            expandLink={data.id + '/creators'}
+            items={data.creators.items.map((item) => ({
+              link: `${data.id}/creators/${item.resourceURI.split('/').pop()}`,
               name: item.name
             }))}
           />
@@ -83,10 +85,10 @@ export default function Character({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await api.getCharacters({ limit: 100 })
+  const data = await api.getSeries({ limit: 100 })
 
-  const paths = data.map((char: ICharacter) => ({
-    params: { id: char.id.toString() }
+  const paths = data.map((item: ISerie) => ({
+    params: { id: item.id.toString() }
   }))
 
   return {
@@ -95,10 +97,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps<{ data: ICharacter }> = async (
+export const getStaticProps: GetStaticProps<{ data: ISerie }> = async (
   context
 ) => {
-  const data = await api.getCharacter(Number(context.params.id))
+  const data = await api.getSerie(Number(context.params.id))
 
   return {
     props: { data },

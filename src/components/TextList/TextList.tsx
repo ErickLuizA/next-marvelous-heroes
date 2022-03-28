@@ -21,7 +21,7 @@ export function TextList({ title, expandLink, items }: ITextListProps) {
       </div>
       <ul className={styles.list}>
         {items.slice(0, 5).map((item) => (
-          <li key={item.name}>
+          <li key={item.link}>
             <Link href={item.link}>
               <a className={styles.link}>{item.name}</a>
             </Link>

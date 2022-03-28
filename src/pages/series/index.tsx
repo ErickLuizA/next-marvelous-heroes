@@ -4,29 +4,26 @@ import { Container } from '../../components/Container'
 import { ItemCard } from '../../components/ItemCard'
 import * as api from '../../services/network'
 import styles from '../../styles/page-list.module.css'
-import { Character } from '../../types/character'
+import { Serie } from '../../types/serie'
 
-export default function Characters({
+export default function Series({
   data
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Container>
       <AppBar />
       <div className={styles.container}>
-        <h1 className={styles.header}>Characters</h1>
+        <h1 className={styles.header}>Series</h1>
         <ul className={styles.list}>
-          {data.map((character) => (
+          {data.map((serie) => (
             <ItemCard
-              key={character.id}
+              key={serie.id}
               item={{
-                id: character.id,
-                poster:
-                  character.thumbnail.path +
-                  '.' +
-                  character.thumbnail.extension,
-                title: character.name
+                id: serie.id,
+                poster: serie.thumbnail.path + '.' + serie.thumbnail.extension,
+                title: serie.title
               }}
-              link={'/characters/' + character.id}
+              link={'/series/' + serie.id}
               scale
             />
           ))}
@@ -37,9 +34,9 @@ export default function Characters({
 }
 
 export const getStaticProps: GetStaticProps<{
-  data: Character[]
+  data: Serie[]
 }> = async () => {
-  const data = await api.getCharacters({ limit: 100 })
+  const data = await api.getSeries({ limit: 100 })
 
   return {
     props: {
