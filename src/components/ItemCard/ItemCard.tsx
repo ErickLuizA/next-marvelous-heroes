@@ -25,7 +25,9 @@ export function ItemCard({
       <Link href={link}>
         <a>
           <img src={poster} alt={title} className={styles.img} />
-          <p>{title}</p>
+          <p>
+            {title.slice(0, 30)} {title.length > 30 ? '...' : ''}
+          </p>
         </a>
       </Link>
     </li>
